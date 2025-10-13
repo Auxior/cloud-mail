@@ -18,7 +18,8 @@ const user = sqliteTable('user', {
 	sendCount: text('send_count').default(0),
 	regKeyId: integer('reg_key_id').default(0).notNull(),
 	isDel: integer('is_del').default(0).notNull(),
-	externalId: text('external_id'),
-	oauthProvider: text('oauth_provider')
+	oauthId: text('oauth_id'),
+	oauthUsername: text('oauth_username'),
+	oauthTrustLevel: integer('oauth_trust_level')
 });
 export default user

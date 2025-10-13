@@ -300,7 +300,10 @@ const en = {
     oauthProcessing: 'Processing login...',
     oauthCodeMissing: 'Authorization code is missing',
     oauthLoginFailed: 'OAuth login failed',
-    loginSuccess: 'Login successful'
+    loginSuccess: 'Login successful',
+    oauthId: 'ID',
+    oauthUsername: 'Username',
+    oauthTrustLevel: 'Trust Level'
 }
 
 export default en

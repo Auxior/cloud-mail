@@ -99,6 +99,26 @@
               </div>
             </template>
           </el-table-column>
+          <el-table-column show-overflow-tooltip :label="$t('oauthId')" min-width="80">
+            <template #default="props">
+              <div class="oauth-field">{{ props.row.oauthId || '-' }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column show-overflow-tooltip :label="$t('oauthUsername')" min-width="120">
+            <template #default="props">
+              <div class="oauth-field">{{ props.row.oauthUsername || '-' }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('oauthTrustLevel')" min-width="100">
+            <template #default="props">
+              <div class="oauth-field">
+                <el-tag v-if="props.row.oauthTrustLevel !== null && props.row.oauthTrustLevel !== undefined" size="small">
+                  {{ props.row.oauthTrustLevel }}
+                </el-tag>
+                <span v-else>-</span>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column show-overflow-tooltip :tooltip-formatter="tableRowFormatter" :label="$t('tabEmailAddress')"
                            :min-width="emailWidth">
             <template #default="props">
@@ -1021,6 +1041,12 @@ function adjustWidth() {
 
 
 .email-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oauth-field {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

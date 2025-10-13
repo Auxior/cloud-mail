@@ -266,11 +266,11 @@ const loginService = {
 			throw new BizError(t('oauthUserInfoError'));
 		}
 
-		// 使用 LinuxDo ID 作为外部标识（直接使用 ID，不添加前缀）
-		const externalId = id.toString();
+		// 使用 LinuxDo ID 作为 OAuth ID
+		const oauthId = id.toString();
 
 		// 查找是否已经存在关联的用户
-		let userRow = await userService.selectByExternalId(c, externalId);
+		let userRow = await userService.selectByOAuthId(c, oauthId);
 
 		// 如果用户不存在，创建新用户
 		if (!userRow) {
@@ -309,11 +309,10 @@ const loginService = {
 				password: hash,
 				salt,
 				type: roleRow.roleId,
-				externalId: externalId,
-				oauthProvider: 'linuxdo'
-			});
-
-			// 创建账户
+				oauthId: oauthId,
+				oauthUsername: username,
+				oauthTrustLevel: trust_level || 0
+			});			// 创建账户
 			await accountService.insert(c, {
 				userId: userId,
 				email,
@@ -322,7 +321,7 @@ const loginService = {
 
 			await userService.updateUserInfo(c, userId, true);
 
-			userRow = await userService.selectByExternalId(c, externalId);
+			userRow = await userService.selectByOAuthId(c, oauthId);
 		}		// 检查用户状态
 		if (userRow.isDel === isDel.DELETE) {
 			throw new BizError(t('isDelUser'));

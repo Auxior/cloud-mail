@@ -78,10 +78,10 @@ const userService = {
 		return orm(c).select().from(user).where(eq(user.userId, userId)).get();
 	},
 
-	selectByExternalId(c, externalId) {
+	selectByOAuthId(c, oauthId) {
 		return orm(c).select().from(user).where(
 			and(
-				eq(user.externalId, externalId),
+				eq(user.oauthId, oauthId),
 				eq(user.isDel, isDel.NORMAL)))
 			.get();
 	},

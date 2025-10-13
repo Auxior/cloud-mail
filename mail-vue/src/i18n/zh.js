@@ -300,6 +300,9 @@ const zh = {
     oauthProcessing: '正在处理登录...',
     oauthCodeMissing: '授权码缺失',
     oauthLoginFailed: 'OAuth 登录失败',
-    loginSuccess: '登录成功'
+    loginSuccess: '登录成功',
+    oauthId: 'ID',
+    oauthUsername: '用户名',
+    oauthTrustLevel: '信任等级'
 }
 export default zh
