@@ -251,6 +251,114 @@ const loginService = {
 		const index = authInfo.tokens.findIndex(item => item === token);
 		authInfo.tokens.splice(index, 1);
 		await c.env.kv.put(KvConst.AUTH_INFO + userId, JSON.stringify(authInfo));
+	},
+
+	/**
+	 * OAuth 登录（LinuxDo）
+	 * @param {object} c - Hono context
+	 * @param {object} oauthUserInfo - OAuth 用户信息
+	 * @returns {Promise<string>} JWT token
+	 */
+	async oauthLogin(c, oauthUserInfo) {
+		const { id, username, name, avatar_template, trust_level } = oauthUserInfo;
+
+		if (!id || !username) {
+			throw new BizError(t('oauthUserInfoError'));
+		}
+
+		// 使用 LinuxDo ID 作为外部标识（直接使用 ID，不添加前缀）
+		const externalId = id.toString();
+
+		// 查找是否已经存在关联的用户
+		let userRow = await userService.selectByExternalId(c, externalId);
+
+		// 如果用户不存在，创建新用户
+		if (!userRow) {
+			// 检查是否允许注册
+			const { register } = await settingService.query(c);
+
+			if (register === settingConst.register.CLOSE) {
+				throw new BizError(t('regDisabled'));
+			}
+
+			// 获取配置的第一个域名
+			const domain = c.env.domain && c.env.domain.length > 0 ? c.env.domain[0] : null;
+
+			if (!domain) {
+				throw new BizError(t('noDomainVariable'));
+			}
+
+			// 生成邮箱地址（使用 LinuxDo 用户名 + 配置的域名）
+			const email = `${username}@${domain}`;
+
+			// 检查邮箱是否已存在
+			const existingAccount = await accountService.selectByEmailIncludeDel(c, email);
+			if (existingAccount) {
+				throw new BizError(t('emailAlreadyExists'));
+			}
+
+			// 获取默认角色
+			const roleRow = await roleService.selectDefaultRole(c);
+
+			// 创建用户（OAuth 用户不需要密码）
+			const { salt, hash } = await saltHashUtils.hashPassword(uuidv4());
+
+			const userId = await userService.insert(c, {
+				email,
+				regKeyId: 0,
+				password: hash,
+				salt,
+				type: roleRow.roleId,
+				externalId: externalId,
+				oauthProvider: 'linuxdo'
+			});
+
+			// 创建账户
+			await accountService.insert(c, {
+				userId: userId,
+				email,
+				name: name || username
+			});
+
+			await userService.updateUserInfo(c, userId, true);
+
+			userRow = await userService.selectByExternalId(c, externalId);
+		}		// 检查用户状态
+		if (userRow.isDel === isDel.DELETE) {
+			throw new BizError(t('isDelUser'));
+		}
+
+		if (userRow.status === userConst.status.BAN) {
+			throw new BizError(t('isBanUser'));
+		}
+
+		// 生成 token
+		const uuid = uuidv4();
+		const jwt = await JwtUtils.generateToken(c, { userId: userRow.userId, token: uuid });
+
+		let authInfo = await c.env.kv.get(KvConst.AUTH_INFO + userRow.userId, { type: 'json' });
+
+		if (authInfo) {
+			if (authInfo.tokens.length > 10) {
+				authInfo.tokens.shift();
+			}
+			authInfo.tokens.push(uuid);
+		} else {
+			authInfo = {
+				tokens: [],
+				user: userRow,
+				refreshTime: dayjs().toISOString()
+			};
+			authInfo.tokens.push(uuid);
+		}
+
+		await userService.updateUserInfo(c, userRow.userId);
+
+		await c.env.kv.put(KvConst.AUTH_INFO + userRow.userId, JSON.stringify(authInfo), {
+			expirationTtl: constant.TOKEN_EXPIRE
+		});
+
+		return jwt;
 	}
 
 };

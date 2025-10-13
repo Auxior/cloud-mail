@@ -63,6 +63,12 @@ const zh = {
 	publicTokenFail: 'token验证失败',
 	notAdmin: '输入的邮箱不是管理员邮箱',
 	emailExistDatabase: '有邮箱已存在数据库中',
+	oauthConfigError: 'OAuth配置错误,请联系管理员',
+	getAccessTokenFailed: '获取访问令牌失败',
+	getUserInfoFailed: '获取用户信息失败',
+	authCodeEmpty: '授权码不能为空',
+	oauthUserInfoError: 'OAuth用户信息错误',
+	emailAlreadyExists: '该邮箱已被注册',
 	perms: {
 		"邮件": "邮件",
 		"邮件发送": "邮件发送",

@@ -60,6 +60,11 @@ const routes = [
         component: () => import('@/views/login/index.vue')
     },
     {
+        path: '/oauth/callback',
+        name: 'oauth-callback',
+        component: () => import('@/views/oauth/index.vue')
+    },
+    {
         path: '/test',
         name: 'test',
         component: () => import('@/views/test/index.vue')
@@ -97,6 +102,11 @@ router.beforeEach((to, from, next) => {
     }, first ? 200 : 100)
 
     const token = localStorage.getItem('token')
+
+    // OAuth 回调页面不需要 token
+    if (to.name === 'oauth-callback') {
+        return next()
+    }
 
     if (!token && to.name !== 'login') {
         return next({name: 'login'})

@@ -35,5 +35,10 @@ crons = ["0 16 * * *"]	#定时任务每天晚上12点执行
 #admin = ""				#管理员的邮箱	示例: admin@example.com
 #jwt_secret = ""			#jwt令牌的密钥,随便填一串字符串
 
+# LinuxDo OAuth 配置（可选）
+#LINUXDO_CLIENT_ID = ""			# LinuxDo OAuth Client ID
+#LINUXDO_CLIENT_SECRET = ""		# LinuxDo OAuth Client Secret
+#LINUXDO_REDIRECT_URI = ""		# OAuth 回调地址 示例: https://yourdomain.com/oauth/callback
+
 [build]
 command = "pnpm --prefix ../mail-vue install && pnpm --prefix ../mail-vue run build"

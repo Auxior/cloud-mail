@@ -44,6 +44,13 @@
           <el-button class="btn" type="primary" @click="submit" :loading="loginLoading"
           >{{ $t('loginBtn') }}
           </el-button>
+          <div class="oauth-login">
+            <el-divider>{{ $t('oauthLogin') }}</el-divider>
+            <el-button class="oauth-btn" @click="loginWithLinuxDo" :loading="oauthLoading">
+              <Icon icon="simple-icons:linux" width="20" height="20"/>
+              <span style="margin-left: 8px;">{{ $t('loginWithLinuxDo') }}</span>
+            </el-button>
+          </div>
         </div>
         <div v-show="show !== 'login'">
           <el-input class="email-input" v-model="registerForm.email" type="text" :placeholder="$t('emailAccount')"
@@ -106,7 +113,7 @@
 <script setup>
 import router from "@/router";
 import {computed, nextTick, reactive, ref} from "vue";
-import {login} from "@/request/login.js";
+import {login, getOAuthUrl} from "@/request/login.js";
 import {register} from "@/request/login.js";
 import {isEmail} from "@/utils/verify-utils.js";
 import {useSettingStore} from "@/store/setting.js";
@@ -125,6 +132,7 @@ const userStore = useUserStore();
 const uiStore = useUiStore();
 const settingStore = useSettingStore();
 const loginLoading = ref(false)
+const oauthLoading = ref(false)
 const show = ref('login')
 const form = reactive({
   email: '',
@@ -377,6 +385,23 @@ function submitRegister() {
   });
 }
 
+const loginWithLinuxDo = async () => {
+  try {
+    oauthLoading.value = true
+    const data = await getOAuthUrl()
+    // 跳转到 LinuxDo 授权页面
+    window.location.href = data.url
+  } catch (error) {
+    ElMessage({
+      message: t('oauthLoginFailed'),
+      type: 'error',
+      plain: true,
+    })
+  } finally {
+    oauthLoading.value = false
+  }
+}
+
 </script>
 
 
@@ -457,6 +482,31 @@ function submitRegister() {
     span {
       color: var(--login-switch-color);
       cursor: pointer;
+    }
+  }
+
+  .oauth-login {
+    margin-top: 20px;
+
+    .el-divider {
+      margin: 20px 0;
+    }
+
+    .oauth-btn {
+      width: 100%;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--el-bg-color);
+      color: var(--el-text-color-primary);
+      border: 1px solid var(--el-border-color);
+
+      &:hover {
+        border-color: var(--el-color-primary);
+        color: var(--el-color-primary);
+      }
     }
   }
 

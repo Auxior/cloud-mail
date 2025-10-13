@@ -294,6 +294,12 @@ const zh = {
     s3Configuration: 'S3 配置',
     confirmDeletionOfContacts: '确认清除这些联系人吗？',
     recentContacts: '最近联系人',
-    selectContacts: '选中'
+    selectContacts: '选中',
+    oauthLogin: '第三方登录',
+    loginWithLinuxDo: '使用 LinuxDo 登录',
+    oauthProcessing: '正在处理登录...',
+    oauthCodeMissing: '授权码缺失',
+    oauthLoginFailed: 'OAuth 登录失败',
+    loginSuccess: '登录成功'
 }
 export default zh

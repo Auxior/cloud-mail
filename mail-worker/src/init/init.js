@@ -446,7 +446,9 @@ const init = {
         status INTEGER DEFAULT 0 NOT NULL,
         create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
         active_time DATETIME,
-        is_del INTEGER DEFAULT 0 NOT NULL
+        is_del INTEGER DEFAULT 0 NOT NULL,
+        external_id TEXT,
+        oauth_provider TEXT
       )
     `).run();
 

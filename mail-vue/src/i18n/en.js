@@ -294,7 +294,13 @@ const en = {
     s3Configuration: 'S3 Configuration',
     confirmDeletionOfContacts: 'Confirm clearing contacts?',
     recentContacts: 'Recent contacts',
-    selectContacts: 'Select'
+    selectContacts: 'Select',
+    oauthLogin: 'Third-party Login',
+    loginWithLinuxDo: 'Sign in with LinuxDo',
+    oauthProcessing: 'Processing login...',
+    oauthCodeMissing: 'Authorization code is missing',
+    oauthLoginFailed: 'OAuth login failed',
+    loginSuccess: 'Login successful'
 }
 
 export default en

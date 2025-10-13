@@ -63,6 +63,12 @@ const en = {
 	publicTokenFail: 'Token validation failed',
 	notAdmin: 'The entered email is not an administrator email',
 	emailExistDatabase: 'Email already exists in the database',
+	oauthConfigError: 'OAuth configuration error, please contact administrator',
+	getAccessTokenFailed: 'Failed to get access token',
+	getUserInfoFailed: 'Failed to get user information',
+	authCodeEmpty: 'Authorization code cannot be empty',
+	oauthUserInfoError: 'OAuth user information error',
+	emailAlreadyExists: 'Email already exists',
 	perms: {
 		"邮件": "Email",
 		"邮件发送": "Send Email",
