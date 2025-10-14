@@ -1,28 +1,50 @@
 <template>
   <div id="login-box">
-    <div id="background-wrap" v-if="!settingStore.settings.background">
-      <div class="x1 cloud"></div>
-      <div class="x2 cloud"></div>
-      <div class="x3 cloud"></div>
-      <div class="x4 cloud"></div>
-      <div class="x5 cloud"></div>
+    <!-- 背景装饰 -->
+    <div class="background-decoration">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="wave wave-1"></div>
+      <div class="wave wave-2"></div>
     </div>
-    <div v-else :style="background"></div>
+    
+    <!-- 自定义背景图 -->
+    <div v-if="settingStore.settings.background" class="custom-background" :style="background"></div>
+    
+    <!-- 登录表单容器 -->
     <div class="form-wrapper">
       <div class="container">
+        <!-- 大学标识 -->
         <div class="university-header">
           <div class="university-logo">
-            <Icon icon="mdi:school" width="48" height="48" color="#1976d2"/>
+            <Icon icon="mdi:email-outline" width="56" height="56" color="#4A90E2"/>
           </div>
-          <span class="form-title">Bishkek International University</span>
-          <span class="university-subtitle">Email Management System</span>
+          <h1 class="form-title">Bishkek International University</h1>
+          <p class="university-subtitle">Email Management System</p>
         </div>
         
+        <!-- 分割线 -->
+        <div class="divider">
+          <span class="divider-text">{{ $t('loginMethod') || 'Login Method' }}</span>
+        </div>
+        
+        <!-- OAuth登录按钮 -->
         <div class="oauth-login">
-          <el-button class="oauth-btn primary-oauth" @click="loginWithLinuxDo" :loading="oauthLoading">
-            <Icon icon="simple-icons:linux" width="22" height="22"/>
-            <span style="margin-left: 10px;">Login with LinuxDo</span>
+          <el-button 
+            class="oauth-btn primary-oauth" 
+            @click="loginWithLinuxDo" 
+            :loading="oauthLoading"
+            size="large"
+          >
+            <Icon icon="simple-icons:linux" width="24" height="24"/>
+            <span>Login with LinuxDo</span>
           </el-button>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="footer-info">
+          <p class="copyright">© 2025 Bishkek International University</p>
         </div>
       </div>
     </div>
@@ -108,23 +130,27 @@ const loginWithLinuxDo = async () => {
 }
 
 .container {
-  background: v-bind(loginOpacity);
-  padding: 40px;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 50px 45px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 450px;
-  border-radius: 12px;
-  border: 1px solid var(--login-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  width: 480px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.1);
+  }
   
   @media (max-width: 1024px) {
-    padding: 30px;
-    width: 384px;
+    padding: 40px 35px;
+    width: 420px;
   }
   @media (max-width: 767px) {
-    padding: 20px 18px;
+    padding: 30px 25px;
     width: calc(100% - 36px);
     margin: 0 18px;
   }
@@ -133,71 +159,110 @@ const loginWithLinuxDo = async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 35px;
 
     .university-logo {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
       border-radius: 50%;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 8px 24px rgba(74, 144, 226, 0.15);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 32px rgba(74, 144, 226, 0.25);
+      }
     }
 
     .university-subtitle {
-      font-size: 14px;
-      color: var(--el-text-color-secondary);
-      margin-top: 8px;
-      font-weight: 500;
+      font-size: 15px;
+      color: #64748B;
+      margin-top: 10px;
+      font-weight: 400;
       text-align: center;
+      letter-spacing: 0.3px;
     }
   }
 
-  .btn {
-    height: 36px;
-    width: 100%;
-    border-radius: 6px;
-  }
-
   .form-title {
-    font-weight: bold;
-    font-size: 20px !important;
+    font-weight: 700;
+    font-size: 26px !important;
     text-align: center;
-    color: var(--el-text-color-primary);
-    line-height: 1.4;
+    color: #1E293B;
+    line-height: 1.3;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #E2E8F0, transparent);
+    }
+    
+    .divider-text {
+      padding: 0 20px;
+      font-size: 13px;
+      color: #94A3B8;
+      font-weight: 500;
+      white-space: nowrap;
+    }
   }
 
   .oauth-login {
-    margin-top: 10px;
     width: 100%;
 
     .primary-oauth {
       width: 100%;
-      height: 48px;
-      border-radius: 8px;
+      height: 54px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      gap: 12px;
+      background: linear-gradient(135deg, #4A90E2 0%, #5BA3F5 100%);
       color: #ffffff;
       border: none;
       font-size: 16px;
       font-weight: 600;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      transition: all 0.3s ease;
+      letter-spacing: 0.3px;
+      box-shadow: 0 8px 24px rgba(74, 144, 226, 0.25);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(74, 144, 226, 0.35);
+        background: linear-gradient(135deg, #5BA3F5 0%, #4A90E2 100%);
       }
 
       &:active {
-        transform: translateY(0);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
       }
+    }
+  }
+  
+  .footer-info {
+    margin-top: 35px;
+    text-align: center;
+    
+    .copyright {
+      font-size: 13px;
+      color: #94A3B8;
+      margin: 0;
+      font-weight: 400;
     }
   }
 
@@ -218,88 +283,100 @@ const loginWithLinuxDo = async () => {
 }
 
 #login-box {
-  background: linear-gradient(to bottom, #2980b9, #6dd5fa, #fff);
-  font: 100% Arial, sans-serif;
+  background: linear-gradient(135deg, #F8FAFC 0%, #E8F2FC 50%, #F1F5F9 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-
-#background-wrap {
-  height: 100%;
-  z-index: 0;
-}
-
-@keyframes animateCloud {
-  0% {
-    margin-left: -500px;
-  }
-
-  100% {
-    margin-left: 100%;
-  }
-}
-
-.x1 {
-  animation: animateCloud 30s linear infinite;
-  transform: scale(0.65);
-}
-
-.x2 {
-  animation: animateCloud 15s linear infinite;
-  transform: scale(0.3);
-}
-
-.x3 {
-  animation: animateCloud 25s linear infinite;
-  transform: scale(0.5);
-}
-
-.x4 {
-  animation: animateCloud 13s linear infinite;
-  transform: scale(0.4);
-}
-
-.x5 {
-  animation: animateCloud 20s linear infinite;
-  transform: scale(0.55);
-}
-
-.cloud {
-  background: linear-gradient(to bottom, #fff 5%, #f1f1f1 100%);
-  border-radius: 100px;
-  box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-  height: 120px;
-  width: 350px;
+  overflow: hidden;
   position: relative;
 }
 
-.cloud:after,
-.cloud:before {
-  content: "";
+.background-decoration {
   position: absolute;
-  background: #fff;
-  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.cloud:after {
-  border-radius: 100px;
-  height: 100px;
-  left: 50px;
-  top: -50px;
-  width: 100px;
+.custom-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.6;
 }
 
-.cloud:before {
-  border-radius: 200px;
-  height: 180px;
-  width: 180px;
-  right: 50px;
-  top: -90px;
+// 圆形装饰
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.08), rgba(91, 163, 245, 0.12));
+  animation: float 20s ease-in-out infinite;
+}
+
+.circle-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -80px;
+  left: -80px;
+  animation-delay: 5s;
+}
+
+.circle-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 10%;
+  animation-delay: 10s;
+}
+
+// 波浪装饰
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.05), rgba(91, 163, 245, 0.08));
+  border-radius: 40%;
+  animation: wave 15s ease-in-out infinite;
+}
+
+.wave-1 {
+  bottom: -50px;
+  animation-delay: 0s;
+}
+
+.wave-2 {
+  bottom: -80px;
+  animation-delay: 3s;
+  opacity: 0.5;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-30%) rotate(5deg);
+  }
 }
 
 </style>
