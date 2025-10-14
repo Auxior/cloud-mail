@@ -134,6 +134,7 @@ const en = {
     regSwitch: 'Sign up',
     loginSwitch: 'Sign in',
     websiteSetting: 'Website',
+    registrationRestrictions: 'Registration Restrictions',
     websiteReg: 'Sign Up',
     loginDomain: 'Sign-In Box Domain',
     multipleEmail: 'Multiple Accounts',
@@ -303,7 +304,13 @@ const en = {
     loginSuccess: 'Login successful',
     oauthId: 'ID',
     oauthUsername: 'Username',
-    oauthTrustLevel: 'Trust Level'
+    oauthTrustLevel: 'Trust Level',
+    maxRegisterUsers: 'Max Register Users',
+    maxRegisterUsersDesc: 'Limit the maximum number of users that can register, -1 means unlimited',
+    registerTrustLevel: 'Register Trust Level',
+    registerTrustLevelDesc: 'When using third-party login, user trust level must reach this value to register, -1 means no limit',
+    maxUsersReached: 'Maximum number of registered users has been reached',
+    trustLevelNotEnough: 'Your trust level is insufficient to register'
 }
 
 export default en

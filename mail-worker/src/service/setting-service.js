@@ -172,7 +172,9 @@ const settingService = {
 			noticeWidth: settingRow.noticeWidth,
 			noticeOffset: settingRow.noticeOffset,
 			notice: settingRow.notice,
-			loginDomain: settingRow.loginDomain
+			loginDomain: settingRow.loginDomain,
+			maxRegisterUsers: settingRow.maxRegisterUsers,
+			registerTrustLevel: settingRow.registerTrustLevel
 		};
 	}
 };

@@ -94,6 +94,15 @@ const userService = {
 			.get();
 	},
 
+	async getUserCount(c) {
+		const { total } = await orm(c)
+			.select({ total: count() })
+			.from(user)
+			.where(eq(user.isDel, isDel.NORMAL))
+			.get();
+		return total;
+	},
+
 	async delete(c, userId) {
 		await orm(c).update(user).set({ isDel: isDel.DELETE }).where(eq(user.userId, userId)).run();
 		await c.env.kv.delete(kvConst.AUTH_INFO + userId)

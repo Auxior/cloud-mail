@@ -134,6 +134,7 @@ const zh = {
     regSwitch: '创建账号',
     loginSwitch: '去登录',
     websiteSetting: '网站设置',
+    registrationRestrictions: '注册限制',
     websiteReg: '用户注册',
     loginDomain: '登录框域名',
     multipleEmail: '多号模式',
@@ -303,6 +304,12 @@ const zh = {
     loginSuccess: '登录成功',
     oauthId: 'ID',
     oauthUsername: '用户名',
-    oauthTrustLevel: '信任等级'
+    oauthTrustLevel: '信任等级',
+    maxRegisterUsers: '最大注册人数',
+    maxRegisterUsersDesc: '限制可注册的最大用户数量，-1表示无限制',
+    registerTrustLevel: '注册信任等级',
+    registerTrustLevelDesc: '使用第三方登录时，用户信任等级需达到此值才能注册，-1表示无限制',
+    maxUsersReached: '已达到最大注册人数限制',
+    trustLevelNotEnough: '您的信任等级不足，无法注册'
 }
 export default zh

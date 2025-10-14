@@ -26,11 +26,19 @@ const loginService = {
 
 		const { email, password, token, code } = params;
 
-		const {regKey, register, registerVerify, regVerifyCount} = await settingService.query(c)
+		const {regKey, register, registerVerify, regVerifyCount, maxRegisterUsers, registerTrustLevel} = await settingService.query(c)
 
 
 		if (register === settingConst.register.CLOSE) {
 			throw new BizError(t('regDisabled'));
+		}
+
+		// 检查最大注册人数限制（-1表示无限制）
+		if (maxRegisterUsers > 0) {
+			const userCount = await userService.getUserCount(c);
+			if (userCount >= maxRegisterUsers) {
+				throw new BizError(t('maxUsersReached'), 403);
+			}
 		}
 
 		if (!verifyUtils.isEmail(email)) {
@@ -275,10 +283,26 @@ const loginService = {
 		// 如果用户不存在，创建新用户
 		if (!userRow) {
 			// 检查是否允许注册
-			const { register } = await settingService.query(c);
+			const { register, maxRegisterUsers, registerTrustLevel } = await settingService.query(c);
 
 			if (register === settingConst.register.CLOSE) {
 				throw new BizError(t('regDisabled'));
+			}
+
+			// 检查最大注册人数限制（-1表示无限制）
+			if (maxRegisterUsers > 0) {
+				const userCount = await userService.getUserCount(c);
+				if (userCount >= maxRegisterUsers) {
+					throw new BizError(t('maxUsersReached'), 403);
+				}
+			}
+
+			// 检查信任等级限制（-1表示无限制）
+			if (registerTrustLevel > 0) {
+				const userTrustLevel = trust_level || 0;
+				if (userTrustLevel < registerTrustLevel) {
+					throw new BizError(t('trustLevelNotEnough'), 403);
+				}
 			}
 
 			// 获取配置的第一个域名

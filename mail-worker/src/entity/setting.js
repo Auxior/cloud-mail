@@ -39,6 +39,8 @@ export const setting = sqliteTable('setting', {
 	region: text('region').default('').notNull(),
 	endpoint: text('endpoint').default('').notNull(),
 	s3AccessKey: text('s3_access_key').default('').notNull(),
-	s3SecretKey: text('s3_secret_key').default('').notNull()
+	s3SecretKey: text('s3_secret_key').default('').notNull(),
+	maxRegisterUsers: integer('max_register_users').default(-1).notNull(),
+	registerTrustLevel: integer('register_trust_level').default(-1).notNull()
 });
 export default setting

@@ -69,6 +69,8 @@ const zh = {
 	authCodeEmpty: '授权码不能为空',
 	oauthUserInfoError: 'OAuth用户信息错误',
 	emailAlreadyExists: '该邮箱已被注册',
+	maxUsersReached: '已达到最大注册人数限制',
+	trustLevelNotEnough: '您的信任等级不足，无法注册',
 	perms: {
 		"邮件": "邮件",
 		"邮件发送": "邮件发送",

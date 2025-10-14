@@ -22,6 +22,7 @@ const init = {
 		await this.v1_6DB(c);
 		await this.v1_7DB(c);
 		await this.v2DB(c);
+		await this.v2_1DB(c);
 		await settingService.refresh(c);
 		return c.text(t('initSuccess'));
 	},
@@ -35,6 +36,17 @@ const init = {
 				c.env.db.prepare(`ALTER TABLE setting ADD COLUMN s3_access_key TEXT NOT NULL DEFAULT '';`),
 				c.env.db.prepare(`ALTER TABLE setting ADD COLUMN s3_secret_key TEXT NOT NULL DEFAULT '';`),
 				c.env.db.prepare(`DELETE FROM perm WHERE perm_key = 'setting:clean'`)
+			]);
+		} catch (e) {
+			console.error(e.message)
+		}
+	},
+
+	async v2_1DB(c) {
+		try {
+			await c.env.db.batch([
+				c.env.db.prepare(`ALTER TABLE setting ADD COLUMN max_register_users INTEGER NOT NULL DEFAULT -1;`),
+				c.env.db.prepare(`ALTER TABLE setting ADD COLUMN register_trust_level INTEGER NOT NULL DEFAULT -1;`)
 			]);
 		} catch (e) {
 			console.error(e.message)

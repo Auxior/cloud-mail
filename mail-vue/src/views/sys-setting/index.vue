@@ -65,6 +65,35 @@
             </div>
           </div>
 
+          <!-- Registration Restrictions Card -->
+          <div class="settings-card">
+            <div class="card-title">{{ $t('registrationRestrictions') }}</div>
+            <div class="card-content">
+              <div class="setting-item">
+                <div>
+                  <span>{{ $t('maxRegisterUsers') }}</span>
+                  <el-tooltip effect="dark" :content="$t('maxRegisterUsersDesc')">
+                    <Icon class="warning" icon="fe:warning" width="18" height="18"/>
+                  </el-tooltip>
+                </div>
+                <div>
+                  <el-input-number size="small" v-model="maxRegisterUsers" @change="maxRegisterUsersChange" :min="-1" :step="1"/>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span>{{ $t('registerTrustLevel') }}</span>
+                  <el-tooltip effect="dark" :content="$t('registerTrustLevelDesc')">
+                    <Icon class="warning" icon="fe:warning" width="18" height="18"/>
+                  </el-tooltip>
+                </div>
+                <div>
+                  <el-input-number size="small" v-model="registerTrustLevel" @change="registerTrustLevelChange" :min="-1" :max="4" :step="1"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Personalization Settings Card -->
           <div class="settings-card">
             <div class="card-title">{{ $t('customization') }}</div>
@@ -700,6 +729,8 @@ let backgroundFile = {}
 const showSetBackground = ref(false)
 let regVerifyCount = ref(1)
 let addVerifyCount = ref(1)
+let maxRegisterUsers = ref(-1)
+let registerTrustLevel = ref(-1)
 let backup = '{}'
 const addS3Show = ref(false)
 const addVerifyCountShow = ref(false)
@@ -773,6 +804,8 @@ function getSettings() {
     r2DomainInput.value = setting.value.r2Domain
     addVerifyCount.value = setting.value.addVerifyCount
     regVerifyCount.value = setting.value.regVerifyCount
+    maxRegisterUsers.value = setting.value.maxRegisterUsers ?? -1
+    registerTrustLevel.value = setting.value.registerTrustLevel ?? -1
     resetNoticeForm()
     resetAddS3Form()
   })
@@ -1030,6 +1063,28 @@ function doOpacityChange() {
 }
 
 const opacityChange = debounce(doOpacityChange, 1000, {
+  leading: false,
+  trailing: true
+})
+
+function doMaxRegisterUsersChange() {
+  const form = {}
+  form.maxRegisterUsers = maxRegisterUsers.value
+  editSetting(form, true)
+}
+
+const maxRegisterUsersChange = debounce(doMaxRegisterUsersChange, 1000, {
+  leading: false,
+  trailing: true
+})
+
+function doRegisterTrustLevelChange() {
+  const form = {}
+  form.registerTrustLevel = registerTrustLevel.value
+  editSetting(form, true)
+}
+
+const registerTrustLevelChange = debounce(doRegisterTrustLevelChange, 1000, {
   leading: false,
   trailing: true
 })
@@ -1667,9 +1722,4 @@ form .el-button {
   min-height: 28px;
 }
 
-</style>
-
-<style>
-.el-popper.is-dark {
-}
 </style>

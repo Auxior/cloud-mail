@@ -69,6 +69,8 @@ const en = {
 	authCodeEmpty: 'Authorization code cannot be empty',
 	oauthUserInfoError: 'OAuth user information error',
 	emailAlreadyExists: 'Email already exists',
+	maxUsersReached: 'Maximum number of registered users has been reached',
+	trustLevelNotEnough: 'Your trust level is insufficient to register',
 	perms: {
 		"邮件": "Email",
 		"邮件发送": "Send Email",
