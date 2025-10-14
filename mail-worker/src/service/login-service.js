@@ -346,7 +346,14 @@ const loginService = {
 			await userService.updateUserInfo(c, userId, true);
 
 			userRow = await userService.selectByOAuthId(c, oauthId);
-		}		// 检查用户状态
+		}		// 更新 OAuth 用户信息（刷新信任等级）
+		if (trust_level !== undefined && userRow.oauthTrustLevel !== trust_level) {
+			await userService.updateOAuthInfo(c, userRow.userId, {
+				oauthTrustLevel: trust_level
+			});
+		}
+
+		// 检查用户状态
 		if (userRow.isDel === isDel.DELETE) {
 			throw new BizError(t('isDelUser'));
 		}

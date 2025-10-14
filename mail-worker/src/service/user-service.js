@@ -248,6 +248,14 @@ const userService = {
 			.run();
 	},
 
+	async updateOAuthInfo(c, userId, oauthInfo) {
+		await orm(c)
+			.update(user)
+			.set(oauthInfo)
+			.where(eq(user.userId, userId))
+			.run();
+	},
+
 	async setPwd(c, params) {
 
 		const { password, userId } = params;
