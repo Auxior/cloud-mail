@@ -3,7 +3,7 @@ const en = {
     drafts: 'Drafts',
     sent: 'Sent',
     starred: 'Starred',
-    settings: 'Settings',
+    settings: 'Profile',
     analytics: 'Analytics',
     allUsers: 'All Users',
     allMail: 'All Mail',
